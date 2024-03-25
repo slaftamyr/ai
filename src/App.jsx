@@ -3,17 +3,18 @@ import axios from "axios";
 import "./App.css";
 import { TextField } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import { openAiKey } from "./key";
+//import { openAiKey } from "./key";
 import ShowImage from "./ShowImage";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
-
+  const [openAiKey] = useState(import.meta.env.VITE_OPEN_AI_KEY0);
   const [buttonColor, setButtonColor] = useState("gray");
   const [isLoading, setIsLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [showResponse, setShowResponse] = useState(false);
   const [theError, setTheError] = useState(true);
+  console.log(openAiKey);
   function show(event) {
     setInputValue(event.target.value);
     if (event.target.value === null) {
