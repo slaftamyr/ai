@@ -29,7 +29,7 @@ const ShowImage = (props) => {
         </div>
       ) : (
         <div>
-          <div>error</div>
+          <div>{props.errorMsg}</div>
           <Button
             onClick={() => {
               props.setShowResponse(false);

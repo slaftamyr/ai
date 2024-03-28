@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import { TextField } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-//import { openAiKey } from "./key";
+
 import ShowImage from "./ShowImage";
 
 function App() {
@@ -14,14 +14,11 @@ function App() {
   const [imageURL, setImageURL] = useState("");
   const [showResponse, setShowResponse] = useState(false);
   const [theError, setTheError] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
   console.log(openAiKey);
   function show(event) {
     setInputValue(event.target.value);
-    if (event.target.value === null) {
-      setButtonColor("gray");
-    } else {
-      setButtonColor("#1de9b6");
-    }
+    setButtonColor(event.target.value ? "#1de9b6" : "gray");
   }
 
   function getReqest() {
@@ -50,10 +47,11 @@ function App() {
         setTheError(true);
       })
       .catch((error) => {
-        console.error(error.message);
         setIsLoading(false);
         setShowResponse(true);
         setTheError(false);
+        setErrorMsg(error.message);
+        console.log(errorMsg);
       });
   }
 
@@ -65,6 +63,7 @@ function App() {
           inputValue={inputValue}
           setShowResponse={setShowResponse}
           theError={theError}
+          errorMsg={errorMsg}
         />
       ) : (
         <>
@@ -75,19 +74,21 @@ function App() {
               textAlign: "center",
               marginTop: "10px",
               marginBottom: "23px",
+              marginLeft: "0px",
+              width: "170px",
               border: "5px",
               borderColor: "#00bfa5",
-              borderRadius: "37px",
+              borderRadius: "7px",
             }}
           >
             <div
               style={{
-                fontSize: "48px",
+                fontSize: "32px",
                 fontWeight: "bold",
                 color: "#333333",
               }}
             >
-              Aimag
+              ImgCrator
             </div>
           </div>
           <TextField
@@ -97,15 +98,23 @@ function App() {
             label="description"
             multiline
             maxRows={4}
+            style={{
+              transform: "scale(1.9)",
+              marginTop: "70px",
+              marginBottom: "30px",
+            }}
           />
           <hr />
           <button
-            style={{ border: "gray", backgroundColor: buttonColor }}
+            style={{
+              border: "gray",
+              backgroundColor: buttonColor,
+              width: "400px",
+            }}
             onClick={getReqest}
           >
-            Send
+            {isLoading ? <CircularProgress /> : "send"}
           </button>
-          {isLoading && <CircularProgress />}
         </>
       )}
     </>
